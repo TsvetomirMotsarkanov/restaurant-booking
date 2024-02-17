@@ -1,4 +1,34 @@
+# Installing Composer Dependencies for Existing Applications
+
+You may install the application's dependencies by navigating to the application's directory and executing the following command. This command uses a small Docker container containing PHP and Composer to install the application's dependencies:
+
+docker run --rm \
+ -u "$(id -u):$(id -g)" \
+ -v "$(pwd):/var/www/html" \
+ -w /var/www/html \
+ laravelsail/php83-composer:latest \
+ composer install --ignore-platform-reqs
+
+When using the laravelsail/phpXX-composer image, you should use the same version of PHP that you plan to use for your application (80, 81, 82, or 83).
+
+---
+
 ./vendor/bin/sail up
+
+sail up -d - To start all of the Docker containers in the background, you may start Sail in "detached" mode
+
+sail stop - to stop all of the containers, you may simply press Control + C to stop the container's execution. Or, if the containers are running in the background, you may use the stop command
+
+## Running Artisan commands locally...
+
+php artisan queue:work
+
+## Running Artisan commands within Laravel Sail...
+
+sail artisan queue:work
+sail php --version
+
+# Laravel README:
 
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
