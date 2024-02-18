@@ -1,3 +1,8 @@
+sail up
+and everything from the docs should start with sail
+
+https://inertiajs.com/
+
 # Installing Composer Dependencies for Existing Applications
 
 You may install the application's dependencies by navigating to the application's directory and executing the following command. This command uses a small Docker container containing PHP and Composer to install the application's dependencies:
