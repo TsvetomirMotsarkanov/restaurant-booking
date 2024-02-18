@@ -1,4 +1,6 @@
 sail up
+npm run dev
+
 and everything from the docs should start with sail
 
 https://inertiajs.com/
