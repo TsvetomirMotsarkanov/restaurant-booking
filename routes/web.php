@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
-use Illuminate\Foundation\Application;
+use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -16,15 +16,14 @@ use Inertia\Inertia;
 |
 */
 
-Route::get('/', function () {
-    return Inertia::render('Dashboard');
-})->name('home');
+// Route::get('/', function () {
+//     return view('dashboard');
+// })->name('home');
 
-// Route::get('/dashboard', function () {
-//     return [
-//         "a" => "a"
-//     ];
-// })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::get('/', [RestaurantController::class, 'index'])->name('home');
+Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'view']);
+// ->middleware(['auth', 'verified']);
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
