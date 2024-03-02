@@ -8,20 +8,31 @@ use Illuminate\Http\Request;
 
 class RestaurantController extends Controller
 {
-    private $client;
+    // private $client;
 
-    public function __construct(Client $client)
+    // public function __construct(Client $client)
+    // {
+    //     $this->client = $client;
+    // }
+
+    public function index()
     {
-        $this->client = $client;
+        // $restaurants = Restaurant::with("tables")->get();
+
+        $restaurants = Restaurant::all();
+
+        return view('restaurant.list', [
+            'restaurants' => $restaurants,
+        ]);
     }
 
     public function view(Restaurant $restaurant)
     {
-        $entry = $this->client->getEntries();
+        // $entry = $this->client->getEntries();
 
-        dd($entry);
-        // return view('profile.edit', [
-        //     'user' => $request->user(),
-        // ]);
+        // dd($entry);
+        return view('restaurant.view', [
+            'restaurant' => $restaurant,
+        ]);
     }
 }
