@@ -18,9 +18,8 @@ class RestaurantController extends Controller
 
     public function index()
     {
-        // $restaurants = Restaurant::with("tables")->get();
-
-        $restaurants = Restaurant::all();
+        $restaurants = Restaurant::latest()->available_tables()->get();
+        // $restaurants = Restaurant::all();
         $now = Carbon::now();
         $slot1 = $this->addMinutes($now, 15);
 
