@@ -9,7 +9,29 @@
                             <p>
                                 {{ $restaurant->description }}
                             </p>
-                            <div>{{ $restaurant->tables->count() }}</div>
+
+                            @if ($restaurant->tables->count())
+                                <hr>
+                                <div>{{ $restaurant->tables->count() }} tables:</div>
+                                <ul>
+                                    @foreach ($restaurant->tables as $table)
+                                        <li>
+                                            <div>
+                                                {{ $table->seats }} seats | {{ $table->bookings->count() }} bookings
+                                            </div>
+                                        </li>
+                                    @endforeach
+                                </ul>
+
+                                @foreach ($slots as $slot)
+                                    <x-booking-slot :href="route('profile.edit')">
+                                        {{ $slot['value']->format('H:i') }}
+                                        </x-booking-slotk>
+                                @endforeach
+                            @else
+                                <p>No Tables</p>
+                            @endif
+
                         </div>
                     </div>
                 </div>
