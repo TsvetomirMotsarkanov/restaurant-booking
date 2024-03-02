@@ -20,6 +20,7 @@ class RestaurantController extends Controller
         // $restaurants = Restaurant::with("tables")->get();
 
         $restaurants = Restaurant::all();
+        // $restaurants = Restaurant::latest()->available_tables()->get();
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,

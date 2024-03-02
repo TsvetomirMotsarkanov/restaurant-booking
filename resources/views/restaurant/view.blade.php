@@ -15,7 +15,7 @@
 
                     Tables:
                     @foreach ($restaurant->tables as $table)
-                        <div>#{{ $table->id }} with {{ $table->seats }} seats </div>
+                        <div>#{{ $table->id }} with {{ $table->seats }} seats {{ $table->bookings->count() }} </div>
                     @endforeach
                 </div>
             </div>

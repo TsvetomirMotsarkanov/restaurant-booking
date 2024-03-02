@@ -1,9 +1,9 @@
 <?php
 
+use Illuminate\Support\Carbon;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Support\Facades\DB;
 
 return new class extends Migration
 {
@@ -14,10 +14,10 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('table_id');
-            $table->timestamp('start_date')->default(DB::raw('CURRENT_TIMESTAMP'));
-            $table->timestamp('end_date')->nullable();
-            $table->foreign('table_id')->references('id')->on('restaurant_tables');
+            $table->unsignedBigInteger('restaurant_table_id');
+            $table->timestamp('start_date')->default(Carbon::now());
+            $table->timestamp('end_date')->default(Carbon::now()->addMinutes(30));
+            $table->foreign('restaurant_table_id')->references('id')->on('restaurant_tables');
             $table->timestamps();
         });
     }
