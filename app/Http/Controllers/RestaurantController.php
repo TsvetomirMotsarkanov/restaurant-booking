@@ -18,12 +18,18 @@ class RestaurantController extends Controller
 
     public function index()
     {
-        // $restaurants = Restaurant::all();
         $now = Carbon::now();
         $slot1 = $this->addMinutes($now, 15);
         $slot2 = Carbon::create($slot1)->addMinutes(15);
         $slot3 = Carbon::create($slot1)->addMinutes(30);
-        $restaurants = Restaurant::with('tables.bookings')->available_tables($slot3)->get();
+        $restaurants = Restaurant::with(['tables' => function ($q) use ($slot3) {
+            $q->with('bookings')->whereDoesntHave('bookings', function ($bookingsQuery) use ($slot3) {
+                $bookingsQuery->where([
+                    ['end_date', '>', $slot3],
+                ]);
+            });
+        }])->available_tables($slot3)->get();
+
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,

@@ -39,7 +39,13 @@ class BookingController extends Controller
             return redirect()->back();
         }
 
-        $restaurant = Restaurant::findOr($request->restaurantId, function () {
+        $restaurant = Restaurant::with(['tables' => function ($q) use ($request) {
+            $q->whereDoesntHave('bookings', function ($bookingsQuery) use ($request) {
+                $bookingsQuery->where([
+                    ['end_date', '>', $request->date],
+                ]);
+            });
+        }])->available_tables($request->date)->findOr($request->restaurantId, function () {
             return redirect()->back();
         });
 
@@ -67,7 +73,14 @@ class BookingController extends Controller
     {
         $bookings = [];
         $filledSeats = 0;
-        foreach ($restaurant->tables as $table) {
+        $table = $restaurant->tables->firstWhere('seats', '=', $people);
+
+        if ($table) {
+            return collect([$table]);
+        }
+
+        $sortedTables = $restaurant->tables->sortByDesc('seats');
+        foreach ($sortedTables as $table) {
             $bookings[] = $table;
             $filledSeats += $table->seats;
 
