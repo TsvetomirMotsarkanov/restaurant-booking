@@ -11,14 +11,16 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class Restaurant extends Model
 {
     use HasFactory;
-    protected $with = ['tables'];
 
-    public function scopeAvailable_tables($query)
+    public function scopeAvailable_tables($query, $bookingDate)
     {
-        $query->whereHas('tables', function ($tablesQuery) {
-            $tablesQuery->whereDoesntHave('bookings', function ($bookingsQuery) {
+        $query->whereHas('tables', function ($tablesQuery) use ($bookingDate) {
+            $tablesQuery->whereDoesntHave('bookings', function ($bookingsQuery) use ($bookingDate) {
                 // TODO
-                $bookingsQuery->where('start_date', '<=', Carbon::now());
+                $bookingsQuery->where([
+                    ['start_date', '<=', $bookingDate],
+                    ['end_date', '>', $bookingDate],
+                ]);
             });
         });
     }

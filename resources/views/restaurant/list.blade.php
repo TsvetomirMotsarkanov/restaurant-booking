@@ -24,7 +24,7 @@
                                 </ul>
 
                                 @foreach ($slots as $slot)
-                                    <x-booking-slot :href="'/booking/' . $table->restaurant->id . '?date=' . $slot['value']">
+                                    <x-booking-slot :href="'/booking/' . $restaurant->id . '?date=' . $slot['value']">
                                         {{ $slot['value']->format('H:i') }}
                                         </x-booking-slotk>
                                 @endforeach

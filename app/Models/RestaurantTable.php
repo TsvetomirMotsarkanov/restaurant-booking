@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class RestaurantTable extends Model
 {
     use HasFactory;
-    protected $with = ['bookings'];
 
     public function restaurant(): BelongsTo
     {

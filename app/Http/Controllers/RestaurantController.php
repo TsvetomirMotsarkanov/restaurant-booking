@@ -18,10 +18,12 @@ class RestaurantController extends Controller
 
     public function index()
     {
-        $restaurants = Restaurant::latest()->available_tables()->get();
         // $restaurants = Restaurant::all();
         $now = Carbon::now();
         $slot1 = $this->addMinutes($now, 15);
+        $slot2 = Carbon::create($slot1)->addMinutes(15);
+        $slot3 = Carbon::create($slot1)->addMinutes(30);
+        $restaurants = Restaurant::with('tables.bookings')->available_tables($slot3)->get();
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,
@@ -32,11 +34,11 @@ class RestaurantController extends Controller
                 ],
                 [
                     "id" => "slot2",
-                    "value" => Carbon::create($slot1)->addMinutes(15)
+                    "value" => $slot2
                 ],
                 [
                     "id" => "slot3",
-                    "value" => Carbon::create($slot1)->addMinutes(30)
+                    "value" => $slot3
                 ],
             ]
         ]);
