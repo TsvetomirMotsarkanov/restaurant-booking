@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\RestaurantController;
 use Illuminate\Support\Facades\Route;
@@ -17,6 +18,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [RestaurantController::class, 'index'])->name('home');
 Route::get('/restaurants/{restaurant}', [RestaurantController::class, 'view']);
+
+Route::get('/booking/{restaurant}', [BookingController::class, 'show']);
+Route::post('/booking', [BookingController::class, 'store'])->name('booking.create');
 
 Route::get('/dashboard', function () {
     return view('dashboard');

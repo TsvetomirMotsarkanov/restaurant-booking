@@ -1,4 +1,6 @@
 sail up
+sail php artisan migrate:fresh --seed
+npm install
 npm run dev
 
 and everything from the docs should start with sail

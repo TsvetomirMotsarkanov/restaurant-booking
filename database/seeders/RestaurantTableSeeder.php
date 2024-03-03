@@ -2,16 +2,16 @@
 
 namespace Database\Seeders;
 
-use App\Models\Restaurant;
+use App\Models\RestaurantTable;
 use Illuminate\Database\Seeder;
 
-class RestaurantSeeder extends Seeder
+class RestaurantTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Restaurant::factory(7)->create();
+        RestaurantTable::factory(15)->create();
     }
 }
