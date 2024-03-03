@@ -10,6 +10,8 @@ class Booking extends Model
 {
     use HasFactory;
 
+    protected $fillable = ['restaurant_table_id', 'start_date', 'end_date'];
+
     public function table(): BelongsTo
     {
         return $this->belongsTo(RestaurantTable::class);
