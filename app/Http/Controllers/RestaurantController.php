@@ -30,23 +30,40 @@ class RestaurantController extends Controller
             });
         }])->available_tables($slot3)->get();
 
+        $restaurants->transform(function ($restaurant) use ($slot1, $slot2, $slot3) {
+            $restaurant->slots = [
+                [
+                    "value" => $slot1,
+                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot1) {
+                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot1) {
+                            return $booking->end_date > $slot1;
+                        });
+                    })
+                ],
+                [
+                    "value" => $slot2,
+                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot2) {
+                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot2) {
+                            return $booking->end_date > $slot2;
+                        });
+                    })
+                ],
+                [
+                    "value" => $slot3,
+                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot3) {
+                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot3) {
+                            return $booking->end_date > $slot3;
+                        });
+                    })
+                ],
+            ];
+
+            return $restaurant;
+        });
+
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,
-            'slots' => [
-                [
-                    "id" => "slot1",
-                    "value" => $slot1
-                ],
-                [
-                    "id" => "slot2",
-                    "value" => $slot2
-                ],
-                [
-                    "id" => "slot3",
-                    "value" => $slot3
-                ],
-            ]
         ]);
     }
 

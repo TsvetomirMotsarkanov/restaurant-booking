@@ -45,9 +45,12 @@ class BookingController extends Controller
                     ['end_date', '>', $request->date],
                 ]);
             });
-        }])->available_tables($request->date)->findOr($request->restaurantId, function () {
-            return redirect()->back();
-        });
+        }])->available_tables($request->date)->find($request->restaurantId);
+
+        if (!$restaurant) {
+            return redirect('/');
+        }
+
 
         $result = "";
         try {

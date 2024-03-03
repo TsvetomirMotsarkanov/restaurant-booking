@@ -23,8 +23,10 @@
                                     @endforeach
                                 </ul>
 
-                                @foreach ($slots as $slot)
-                                    <x-booking-slot :href="'/booking/' . $restaurant->id . '?date=' . $slot['value']">
+                                @foreach ($restaurant->slots as $slot)
+                                    <x-booking-slot :disabled="$slot['disabled']" :class="$slot['disabled']
+                                        ? 'pointer-events-none dark:bg-gray-600 bg-gray-400'
+                                        : 'bg-gray-800 dark:bg-gray-200'" :href="$slot['disabled'] ? '#' : '/booking/' . $restaurant->id . '?date=' . $slot['value']">
                                         {{ $slot['value']->format('H:i') }}
                                         </x-booking-slotk>
                                 @endforeach

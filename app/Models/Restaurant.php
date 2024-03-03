@@ -16,7 +16,6 @@ class Restaurant extends Model
     {
         $query->whereHas('tables', function ($tablesQuery) use ($bookingDate) {
             $tablesQuery->whereDoesntHave('bookings', function ($bookingsQuery) use ($bookingDate) {
-                // TODO
                 $bookingsQuery->where([
                     ['start_date', '<=', $bookingDate],
                     ['end_date', '>', $bookingDate],
