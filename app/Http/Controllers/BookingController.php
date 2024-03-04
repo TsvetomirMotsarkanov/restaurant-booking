@@ -14,6 +14,12 @@ class BookingController extends Controller
 {
     function show($id, Request $request)
     {
+        Validator::make($request->all(), [
+            'people' => 'integer|min:1|max:12',
+            'date' => 'date',
+            'restaurantId' => 'integer',
+        ])->validate();
+
         $date = Carbon::create($request->date);
 
         if ($date < Carbon::now()) {
@@ -22,7 +28,8 @@ class BookingController extends Controller
 
         return view("booking.new", [
             'restaurantId' => $id,
-            'date' => $request->date
+            'date' => $request->date,
+            'people' => $request->people
         ]);
     }
 
@@ -48,7 +55,7 @@ class BookingController extends Controller
         }])->available_tables($request->date)->find($request->restaurantId);
 
         if (!$restaurant) {
-            return redirect('/');
+            return redirect('/')->with(['result' => 'This restaurant is not available at this time, please try to select different date and time.', 'error' => true]);
         }
 
 

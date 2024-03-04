@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
 use Contentful\Delivery\Client;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
@@ -18,23 +19,30 @@ class RestaurantController extends Controller
 
     public function index(Request $request)
     {
+        Validator::make($request->all(), [
+            'people' => 'integer|min:1|max:12',
+            'date' => 'date',
+        ])->validate();
+
         $now = Carbon::now();
         $date = $now;
         $hours = $this->getHours($now);
         $time = $hours[0];
         $peopleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $checkDate = $date; // this is needed for the restaurants timeslot buttons calculation
         if ($request->date !== null && $request->time !== null) {
             $tempDate = Carbon::create($request->date . " " . $request->time);
             if ($tempDate >= $now) {
                 $date = $tempDate;
                 $time = $tempDate;
                 $hours = $this->getHours(Carbon::create($request->date));
+                $checkDate = Carbon::create($tempDate)->addMinutes(-5);
             }
         }
 
-        $people = 2;
+        $people = $request->people !== null ? (int)$request->people : 3;
         $restaurantName = '';
-        $restaurants = $this->getRestaurants($date);
+        $restaurants = $this->getRestaurants($checkDate, $people);
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,
@@ -59,7 +67,7 @@ class RestaurantController extends Controller
         ]);
     }
 
-    private function getRestaurants($date)
+    private function getRestaurants($date, $people)
     {
         $slot1 = $this->addMinutes($date, 15);
         $slot2 = Carbon::create($slot1)->addMinutes(15);
@@ -72,31 +80,19 @@ class RestaurantController extends Controller
             });
         }])->available_tables($slot3)->get();
 
-        $restaurants->transform(function ($restaurant) use ($slot1, $slot2, $slot3) {
+        $restaurants->transform(function ($restaurant) use ($slot1, $slot2, $slot3, $people) {
             $restaurant->slots = [
                 [
                     "value" => $slot1,
-                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot1) {
-                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot1) {
-                            return $booking->end_date > $slot1;
-                        });
-                    })
+                    "disabled" => $this->isSlotDisabled($restaurant, $slot1, $people),
                 ],
                 [
                     "value" => $slot2,
-                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot2) {
-                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot2) {
-                            return $booking->end_date > $slot2;
-                        });
-                    })
+                    "disabled" => $this->isSlotDisabled($restaurant, $slot2, $people),
                 ],
                 [
                     "value" => $slot3,
-                    "disabled" => !$restaurant->tables->some(function ($table) use ($slot3) {
-                        return $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot3) {
-                            return $booking->end_date > $slot3;
-                        });
-                    })
+                    "disabled" => $this->isSlotDisabled($restaurant, $slot3, $people),
                 ],
             ];
 
@@ -104,6 +100,24 @@ class RestaurantController extends Controller
         });
 
         return $restaurants;
+    }
+
+    private function isSlotDisabled($restaurant, $slot, $people)
+    {
+        $availableSeats = 0;
+        $restaurant->tables->some(function ($table) use ($slot, &$availableSeats) {
+            $isAvailable = $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot) {
+                return $booking->end_date > $slot;
+            });
+
+            if ($isAvailable) {
+                $availableSeats += $table->seats;
+            }
+
+            return $isAvailable;
+        });
+
+        return $availableSeats < $people;
     }
 
     private function getHours($now)

@@ -16,7 +16,7 @@
                             <x-input-label for="people" :value="__('People')" />
 
                             <x-text-input id="people" class="block mt-1 w-full" type="text" name="people"
-                                required />
+                                value="{{ $people }}" required />
 
                             <x-input-error :messages="$errors->get('people')" class="mt-2" />
                             <x-input-error :messages="$errors->get('restaurantId')" class="mt-2" />
