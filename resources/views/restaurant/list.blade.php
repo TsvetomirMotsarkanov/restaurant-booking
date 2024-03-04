@@ -1,44 +1,6 @@
 <x-app-layout>
-    {{-- SEARCH --}}
-    <div class="py-8 mb-2 mt-2">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-2xl rounded-3xl">
-                <div class="p-6 text-gray-900 dark:text-gray-100 ">
-                    <form class="block w-full" method="POST" action="{{ route('register') }}">
-                        @csrf
+    @include('restaurant.partials.search-form')
 
-                        <!-- 1 row -->
-                        <div class="mt-4 flex gap-4 w-full">
-                            <input id="date" class="block mt-1 w-full" placeholder="Date" type="date"
-                                name="date" min="{{ $today->format('Y-m-d') }}" value="{{ $today->format('Y-m-d') }}"
-                                defaultValue="{{ $today->format('Y-m-d') }}" required />
-
-                            <input id="time" class="block mt-1 w-full" placeholder="Tiem" type="time"
-                                name="time" min="09:00" step="900" required />
-                        </div>
-
-                        <!-- 2 row -->
-                        <div class="mt-4 block w-full">
-                            <x-text-input id="email" class="block mt-1 w-full" placeholder="Name" type="text"
-                                name="email" :value="old('email')" required />
-                        </div>
-
-                        <!-- 3 row -->
-                        <div class="mt-4">
-                            <x-text-input id="password" class="block mt-1 w-full" placeholder="Restaurant or Cuisine"
-                                type="text" name="locationName" />
-                        </div>
-
-                        <div class="mt-4">
-                            <x-primary-button class="block mt-1 w-full justify-center text-center">
-                                {{ __('Search') }}
-                            </x-primary-button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-    {{-- END SEARCH --}}
     @foreach ($restaurants as $restaurant)
         <div class="py-6 mt-2">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">

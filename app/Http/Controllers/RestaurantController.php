@@ -19,6 +19,10 @@ class RestaurantController extends Controller
     public function index()
     {
         $now = Carbon::now();
+        $hours = $this->getHours($now);
+        $peopleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+        $people = 2;
+        $restaurantName = '';
         $slot1 = $this->addMinutes($now, 15);
         $slot2 = Carbon::create($slot1)->addMinutes(15);
         $slot3 = Carbon::create($slot1)->addMinutes(30);
@@ -64,7 +68,12 @@ class RestaurantController extends Controller
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,
-            'today' => $now
+            'date' => $now,
+            'now' => $now,
+            'hours' => $hours,
+            'peopleOptions' => $peopleOptions,
+            'people' => $people,
+            'restaurantName' => $restaurantName
         ]);
     }
 
@@ -78,12 +87,24 @@ class RestaurantController extends Controller
         ]);
     }
 
-    private function addMinutes(Carbon $date)
+    private function getHours($now)
     {
-        $rounded = Carbon::create($date)->roundMinute(15);
+        $periods = [];
+        $hourNow = $this->addMinutes($now, 30);
+        while ($now->format('m-d') === $hourNow->format('m-d')) {
+            $periods[] = $hourNow->format('H:i');
+            $hourNow->addMinutes(30);
+        }
+
+        return $periods;
+    }
+
+    private function addMinutes(Carbon $date, $minutes = 15)
+    {
+        $rounded = Carbon::create($date)->roundMinute($minutes);
 
         if ($rounded <= $date) {
-            return Carbon::create($date)->addMinutes(15)->roundMinute(15);
+            return Carbon::create($date)->addMinutes($minutes)->roundMinute($minutes);
         }
 
         return $rounded;
