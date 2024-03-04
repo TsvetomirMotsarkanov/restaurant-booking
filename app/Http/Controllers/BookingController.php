@@ -53,6 +53,7 @@ class BookingController extends Controller
 
 
         $result = "";
+        $error = false;
         try {
             $tableBookings = $this->getTableBookings($restaurant, $request->people);
 
@@ -64,12 +65,13 @@ class BookingController extends Controller
                 ];
             })->toArray());
 
-            $result = "Success!";
+            $result = "You successfully created your booking.";
         } catch (Error $e) {
+            $error = true;
             $result = $e->getMessage();
         }
 
-        return redirect("/")->with("result", $result);
+        return redirect("/")->with(["result" => $result, 'error' => $error]);
     }
 
     private function getTableBookings($restaurant, $people)
