@@ -41,8 +41,8 @@ class RestaurantController extends Controller
         }
 
         $people = $request->people !== null ? (int)$request->people : 3;
-        $restaurantName = '';
-        $restaurants = $this->getRestaurants($checkDate, $people);
+        $restaurantName = $request->restaurantName ?? '';
+        $restaurants = $this->getRestaurants($restaurantName, $checkDate, $people);
 
         return view('restaurant.list', [
             'restaurants' => $restaurants,
@@ -67,7 +67,7 @@ class RestaurantController extends Controller
         ]);
     }
 
-    private function getRestaurants($date, $people)
+    private function getRestaurants($restaurantName, $date, $people)
     {
         $slot1 = $this->addMinutes($date, 15);
         $slot2 = Carbon::create($slot1)->addMinutes(15);
@@ -78,10 +78,10 @@ class RestaurantController extends Controller
                     ['end_date', '>', $slot3],
                 ]);
             });
-        }])->available_tables($slot3)->get();
+        }])->where('name', 'LIKE', '%' . $restaurantName . '%')->available_tables($slot3)->get();
 
         $restaurants->transform(function ($restaurant) use ($slot1, $slot2, $slot3, $people) {
-            $restaurant->slots = [
+            $restaurant->slots = collect([
                 [
                     "value" => $slot1,
                     "disabled" => $this->isSlotDisabled($restaurant, $slot1, $people),
@@ -94,18 +94,22 @@ class RestaurantController extends Controller
                     "value" => $slot3,
                     "disabled" => $this->isSlotDisabled($restaurant, $slot3, $people),
                 ],
-            ];
+            ]);
 
             return $restaurant;
         });
 
-        return $restaurants;
+        return $restaurants->filter(function ($restaurant) {
+            return $restaurant->slots->some(function ($slot) {
+                return $slot['disabled'] === false;
+            });
+        });
     }
 
     private function isSlotDisabled($restaurant, $slot, $people)
     {
         $availableSeats = 0;
-        $restaurant->tables->some(function ($table) use ($slot, &$availableSeats) {
+        $restaurant->tables->each(function ($table) use ($slot, &$availableSeats) {
             $isAvailable = $table->bookings->count() === 0 || !$table->bookings->some(function ($booking) use ($slot) {
                 return $booking->end_date > $slot;
             });
