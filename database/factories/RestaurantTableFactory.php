@@ -17,8 +17,8 @@ class RestaurantTableFactory extends Factory
     public function definition(): array
     {
         return [
-            'seats' => fake()->numberBetween(1, 10),
-            'restaurant_id' => fake()->numberBetween(1, 5)
+            'seats' => fake()->numberBetween(3, 10),
+            'restaurant_id' => fake()->numberBetween(1, 10)
         ];
     }
 }
