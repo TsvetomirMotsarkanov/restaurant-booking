@@ -37,7 +37,7 @@
 
                     <div class="mt-4">
                         <x-primary-button class="block mt-1 w-full justify-center text-center">
-                            {{ __('Search') }}
+                            Search
                         </x-primary-button>
                 </form>
             </div>
