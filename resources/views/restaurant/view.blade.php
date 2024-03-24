@@ -17,7 +17,7 @@
                         <div class="flex justify-between mt-5">
                             <x-raiting :raiting="$restaurant->raiting" />
                             <x-price :priceInfo="$restaurant->additional_info_price" :noLabel="true" />
-                            <x-additional-info class="gap-x-1" :value="$restaurant->additional_info_cuisines">
+                            <x-additional-info class="gap-x-0" :value="$restaurant->additional_info_cuisines">
                                 <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
                                     width="24">
                                     <path
