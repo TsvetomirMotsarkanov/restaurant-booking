@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Restaurant;
+use App\Models\RestaurantImage;
 use Illuminate\Database\Seeder;
 
 class RestaurantSeeder extends Seeder
@@ -40,11 +41,22 @@ class RestaurantSeeder extends Seeder
 
     public function run(): void
     {
+        include_once(__DIR__ . '/images.php');
+        shuffle($images);
+
         foreach ($this->names as $key => $value) {
+            $image = $images[$key];
+            array_splice($images, $key, 1);
+
             Restaurant::factory()->create([
                 'name' => $value,
                 'description' => $this->descriptions[$key],
+                'image' => $image,
             ]);
+        }
+
+        foreach ($images as $image) {
+            RestaurantImage::factory()->create(['url' => $image]);
         }
     }
 }

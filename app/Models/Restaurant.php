@@ -28,4 +28,9 @@ class Restaurant extends Model
     {
         return $this->hasMany(RestaurantTable::class);
     }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(RestaurantImage::class);
+    }
 }

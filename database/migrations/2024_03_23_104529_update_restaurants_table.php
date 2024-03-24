@@ -12,8 +12,9 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('restaurants', function (Blueprint $table) {
-            $table->decimal('raiting', total: 1, places: 1)->default(0.0);
+            $table->decimal('raiting')->default(0.0);
             $table->integer('additional_info_price')->default(3);
+            $table->string('image');
             $table->string('additional_info_area')->nullable();
             $table->string('additional_info_location')->nullable();
             $table->string('additional_info_hours_of_operation')->nullable();
@@ -39,6 +40,7 @@ return new class extends Migration
         Schema::table('restaurants', function (Blueprint $table) {
             $table->dropColumn([
                 'raiting',
+                'image',
                 'additional_info_area',
                 'additional_info_location',
                 'additional_info_hours_of_operation',

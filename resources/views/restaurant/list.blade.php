@@ -10,7 +10,8 @@
                 <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                     <div
                         class="bg-white dark:bg-gray-800 overflow-hidden shadow-2xl rounded-3xl flex flex-wrap md:flex-nowrap">
-                        <img src="https://picsum.photos/200/200" alt="">
+                        <img src="{{ $restaurant->image }}?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+                            alt="">
                         <div class="p-6 text-gray-900 dark:text-gray-100 flex flex-col justify-between">
                             <a href="/restaurants/{{ $restaurant->id }}">
                                 <h2>#{{ $restaurant->id }} {{ $restaurant->name }}</h2>
