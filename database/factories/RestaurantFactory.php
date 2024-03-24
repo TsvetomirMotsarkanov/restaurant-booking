@@ -9,16 +9,6 @@ use Illuminate\Database\Eloquent\Factories\Factory;
  */
 class RestaurantFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-
-    //  int $width = 640,
-    //  int $height = 480,
-    //  echo $faker->imageUrl(640, 480, 'animals', true);
-
     private $additional_smoking_area = [
         "Outdoor Smoking Zone",
         "Designated Smoking Terrace",
@@ -28,7 +18,6 @@ class RestaurantFactory extends Factory
         "No Smoking",
         "Designated Smoking Area",
         "Outdoor Smoking Terrace",
-        null
     ];
 
     private $additional_info_hours_of_operation = [
@@ -61,7 +50,6 @@ class RestaurantFactory extends Factory
     ];
 
     private $additional_info_dining_style = [
-        null,
         "Casual Dining",
         "Fine Dining",
         "Casual Elegant",
@@ -70,14 +58,12 @@ class RestaurantFactory extends Factory
     ];
 
     private $additional_dress_code = [
-        null,
         "Casual",
         "Smart Casual",
         "Business Casual",
     ];
 
     private $additional_parking_details = [
-        null,
         "Limited street parking available nearby.",
         "Valet parking available.",
         "Public parking garage nearby.",
@@ -88,7 +74,6 @@ class RestaurantFactory extends Factory
     ];
 
     private $additional_payment_options = [
-        null,
         "Visa, Mastercard, Cash",
         "AMEX, Visa, Mastercard",
         "Visa, Mastercard, Apple Pay",
@@ -96,7 +81,6 @@ class RestaurantFactory extends Factory
     ];
 
     private $additional_private_party_facilities = [
-        null,
         "Host your special events with us and enjoy personalized service in a charming atmosphere.",
         "Celebrate your special occasions with us in our elegant private dining spaces.",
         "Host your private events with us and enjoy tailored menus and impeccable service.",

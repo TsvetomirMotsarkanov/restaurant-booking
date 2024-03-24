@@ -13,12 +13,25 @@
                         <p class="text-base font-semibold leading-7 text-indigo-600">Welcome to</p>
                         <h1 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
                             {{ $restaurant->name }}</h1>
+
+                        <div class="flex justify-between mt-5">
+                            <x-raiting :raiting="$restaurant->raiting" />
+                            <x-price :priceInfo="$restaurant->additional_info_price" :noLabel="true" />
+                            <x-additional-info class="gap-x-1" :value="$restaurant->additional_info_cuisines">
+                                <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                                    width="24">
+                                    <path
+                                        d="M280-80v-366q-51-14-85.5-56T160-600v-280h80v280h40v-280h80v280h40v-280h80v280q0 56-34.5 98T360-446v366h-80Zm400 0v-320H560v-280q0-83 58.5-141.5T760-880v800h-80Z" />
+                                </svg>
+                            </x-additional-info>
+                        </div>
+
                         <p class="mt-6 text-xl leading-8 text-gray-700">{{ $restaurant->description }}</p>
                     </div>
                 </div>
             </div>
             <div
-                class="-mt-12 p-0 lg:p-12 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
+                class="-mt-12 p-0 lg:p-12 lg:pb-2 lg:sticky lg:top-4 lg:col-start-2 lg:row-span-2 lg:row-start-1 lg:overflow-hidden">
 
                 <img class="w-[48rem] max-w-600 rounded-xl bg-gray-900 shadow-xl ring-1 ring-gray-400/10 sm:w-[57rem]"
                     src="{{ $restaurant->image }}?auto=compress&cs=tinysrgb&h=350">

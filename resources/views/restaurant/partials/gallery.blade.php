@@ -1,4 +1,4 @@
-<div class="grid grid-cols-6 lg:px-8 mb-20 col-span-2 gap-2">
+<div class="grid grid-cols-6 lg:px-8 pb-20 col-span-2 gap-2">
     @foreach ($restaurant->images as $image)
         @if ($loop->index < 2)
             <div class="overflow-hidden rounded-xl col-span-3 max-h-[14rem]">
