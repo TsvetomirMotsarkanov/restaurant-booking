@@ -16,12 +16,36 @@
                         </h1>
 
                         <div class="mt-6">
-                            <div>
-                                <p class="text-xl leading-8 text-gray-700">
-                                    Lorem ipsum dolor, sit amet consectetur adipisicing elit. Animi cum magni ipsa neque
-                                    quos distinctio, officiis eveniet sint, deserunt blanditiis voluptas tempore
-                                    voluptatem sunt rerum iure, molestiae ipsum nobis laudantium.
-                                </p>
+                            <div class="flex gap-6">
+                                <img class="rounded" style="max-width: 150px"
+                                    src="{{ $restaurantImage }}?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
+                                    alt="" />
+                                <div class="flex flex-col">
+                                    <h2 class="mb-3 text-xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                                        {{ $restaurantName }}
+                                    </h2>
+
+                                    <x-additional-info class="gap-x-2 mb-3" :value="$date">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                                            width="24">
+                                            <path
+                                                d="M360-300q-42 0-71-29t-29-71q0-42 29-71t71-29q42 0 71 29t29 71q0 42-29 71t-71 29ZM200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Z" />
+                                        </svg>
+                                    </x-additional-info>
+
+                                    <x-additional-info class="gap-x-2" :value="$people">
+
+                                        <svg xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                                            width="24">
+                                            <path
+                                                d="M0-240v-63q0-43 44-70t116-27q13 0 25 .5t23 2.5q-14 21-21 44t-7 48v65H0Zm240 0v-65q0-32 17.5-58.5T307-410q32-20 76.5-30t96.5-10q53 0 97.5 10t76.5 30q32 20 49 46.5t17 58.5v65H240Zm540 0v-65q0-26-6.5-49T754-397q11-2 22.5-2.5t23.5-.5q72 0 116 26.5t44 70.5v63H780ZM160-440q-33 0-56.5-23.5T80-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T160-440Zm640 0q-33 0-56.5-23.5T720-520q0-34 23.5-57t56.5-23q34 0 57 23t23 57q0 33-23 56.5T800-440Zm-320-40q-50 0-85-35t-35-85q0-51 35-85.5t85-34.5q51 0 85.5 34.5T600-600q0 50-34.5 85T480-480Z" />
+                                        </svg>
+                                    </x-additional-info>
+
+                                </div>
+
+
                             </div>
                             <div class="mt-8" x-data="appTimerComponent()" x-init="init()">
                                 <div x-show="!outOftime"
@@ -62,7 +86,7 @@
                                 </div>
                                 <div class="mt-8 mb-8">
                                     <x-primary-button class="w-full justify-center text-xl leading-8">
-                                        Confirm
+                                        Complete booking
                                     </x-primary-button>
                                 </div>
                             </form>
@@ -86,11 +110,11 @@
                 </p>
 
                 <p class="mt-6 text-xl leading-8 text-gray-700">
-                    Your table will be booked for <strong> 30 minutes</strong>
+                    Your table will be booked for <strong> 30 minutes</strong>.
                 </p>
 
                 <p class="mt-6 text-xl leading-8 text-gray-700">
-                    A note from the restaurant
+                    <strong>A note from the restaurant</strong>
                 </p>
                 <p class="mt-3 text-xl leading-8 text-gray-700">
                     Please let us know if you have any allergies or dietary requirements.
@@ -103,7 +127,7 @@
 <script>
     function appTimerComponent() {
         return {
-            time: 10,
+            time: 300,
             outOftime: false,
             interval: null,
             init() {
@@ -114,7 +138,6 @@
                 }, 1000);
             },
             getTime() {
-                console.log(this.time)
                 if (this.time > 0) {
                     this.interval && clearInterval(this.interval);
                     const minutes = Math.floor(this.time / 60);

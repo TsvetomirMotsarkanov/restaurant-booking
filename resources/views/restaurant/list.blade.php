@@ -1,8 +1,4 @@
 <x-app-layout>
-    @if (session('result'))
-        <x-alert :is-error="session('error')">{{ session('result') }}</x-alert>
-    @endif
-
     <div class="px-6 lg:px-0">
         @include('restaurant.partials.search-form')
 
@@ -11,7 +7,8 @@
                 <div class="py-6 mt-2" x-data="{}">
                     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                         <div class="bg-white cursor-pointer dark:bg-gray-800 overflow-hidden shadow-2xl rounded-3xl flex flex-wrap justify-center md:flex-nowrap md:justify-start"
-                            tabindex="0" @keyup.enter="window.location.href='/restaurants/{{ $restaurant->id }}'"
+                            role="link" tabindex="0"
+                            @keyup.enter="window.location.href='/restaurants/{{ $restaurant->id }}'"
                             @click="window.location.href='/restaurants/{{ $restaurant->id }}'">
                             <img src="{{ $restaurant->image }}?auto=compress&cs=tinysrgb&dpr=1&fit=crop&h=200&w=280"
                                 alt="" />

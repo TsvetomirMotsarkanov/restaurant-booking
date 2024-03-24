@@ -40,5 +40,43 @@
         </div>
 
         @include('restaurant.partials.gallery')
+        <div class="px-20 pb-20 mt-8">
+            <h2 class="mt-2 text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Make a booking
+            </h2>
+
+            <form class="block w-full" method="get" action="/booking/{{ $restaurant->id }}">
+                <input type="hidden" name="date" value="{{ $now->format('Y-m-d') }} {{ $hours[0] }}">
+                <div class="mt-4 flex gap-4 w-full">
+                    <input id="date"
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                        placeholder="Date" type="date" name="date-date" min="{{ $now->format('Y-m-d') }}"
+                        value="{{ $now->format('Y-m-d') }}" required />
+
+                    <select name="date-time" id="time"
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        @foreach ($hours as $hour)
+                            <option value="{{ $hour }}">{{ $hour }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mt-4 block w-full">
+                    <select name="people" id="people"
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
+                        @foreach ($peopleOptions as $option)
+                            <option value="{{ $option }}" {!! $option === 3 ? 'selected="selected"' : '' !!}>
+                                {{ $option }}
+                                {{ $option > 1 ? 'people' : 'person' }}</option>
+                        @endforeach
+                    </select>
+                </div>
+
+                <div class="mt-4">
+                    <x-primary-button class="block mt-1 w-full justify-center text-center">
+                        Confirm
+                    </x-primary-button>
+            </form>
+        </div>
     </div>
 </x-app-layout>
