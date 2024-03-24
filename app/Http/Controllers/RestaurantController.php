@@ -3,20 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Restaurant;
-use Contentful\Delivery\Client;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 
 class RestaurantController extends Controller
 {
-    // private $client;
-
-    // public function __construct(Client $client)
-    // {
-    //     $this->client = $client;
-    // }
-
     public function index(Request $request)
     {
         Validator::make($request->all(), [
@@ -59,9 +51,8 @@ class RestaurantController extends Controller
 
     public function view(Restaurant $restaurant)
     {
-        // $entry = $this->client->getEntries();
+        $restaurant->load('images');
 
-        // dd($entry);
         return view('restaurant.view', [
             'restaurant' => $restaurant,
         ]);

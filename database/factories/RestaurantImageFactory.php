@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\Factory;
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Restaurant>
  */
-class RestaurantTableFactory extends Factory
+class RestaurantImageFactory extends Factory
 {
     /**
      * Define the model's default state.
@@ -17,7 +17,7 @@ class RestaurantTableFactory extends Factory
     public function definition(): array
     {
         return [
-            'seats' => fake()->numberBetween(3, 10),
+            'url' => fake()->url(),
             'restaurant_id' => fake()->numberBetween(1, 10)
         ];
     }
