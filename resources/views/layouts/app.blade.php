@@ -28,6 +28,9 @@
         <footer>
             <x-newsletter />
         </footer>
+        @if (session('result'))
+            <x-alert :is-error="session('error')">{{ session('result') }}</x-alert>
+        @endif
     </div>
 </body>
 

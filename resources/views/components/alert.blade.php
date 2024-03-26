@@ -4,8 +4,8 @@
     $alertStyle = $isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700';
 @endphp
 
-<div x-data="{ visible: true }">
-    <div x-show="visible" class="fixed bottom-4 right-4 {{ $alertStyle }}">
+<div x-data="{ visible: true }" x-init="setTimeout(() => { visible = false }, 8000)">
+    <div x-show="visible" class="z-50 fixed bottom-4 right-4 {{ $alertStyle }}">
         <div class="flex rounded-lg p-4 mb-4 text-sm" role="alert">
             <svg class="w-5 h-5 inline mr-3" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                 <path fill-rule="evenodd"

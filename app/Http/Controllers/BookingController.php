@@ -23,13 +23,17 @@ class BookingController extends Controller
         $date = Carbon::create($request->date);
 
         if ($date < Carbon::now()) {
-            return redirect("/");
+            return redirect("/restaurants/" . $id)->with(['result' => 'This restaurant is not available at this time, please try to select different date and time.', 'error' => true]);
         }
+
+        $restaurant = Restaurant::select('name', 'image')->where('id', $id)->first();
 
         return view("booking.new", [
             'restaurantId' => $id,
             'date' => $request->date,
-            'people' => $request->people
+            'people' => $request->people,
+            'restaurantName' => $restaurant->name,
+            'restaurantImage' => $restaurant->image
         ]);
     }
 
@@ -55,7 +59,7 @@ class BookingController extends Controller
         }])->available_tables($request->date)->find($request->restaurantId);
 
         if (!$restaurant) {
-            return redirect('/')->with(['result' => 'This restaurant is not available at this time, please try to select different date and time.', 'error' => true]);
+            return redirect("/restaurants/" . $request->restaurantId)->with(['result' => 'This restaurant is not available at this time, please try to select different date and time.', 'error' => true]);;
         }
 
 
@@ -102,7 +106,7 @@ class BookingController extends Controller
         }
 
         if ($filledSeats < $people) {
-            throw new Error("Not enough seats");
+            throw new Error("This restaurant is not available at this time, please try to select different date and time.");
         }
 
         return collect($bookings);

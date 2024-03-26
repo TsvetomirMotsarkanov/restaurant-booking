@@ -9,6 +9,8 @@ use Illuminate\Support\Carbon;
 
 class RestaurantController extends Controller
 {
+    private $peopleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
+
     public function index(Request $request)
     {
         Validator::make($request->all(), [
@@ -20,7 +22,6 @@ class RestaurantController extends Controller
         $date = $now;
         $hours = $this->getHours($now);
         $time = $hours[0];
-        $peopleOptions = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12];
         $checkDate = $date; // this is needed for the restaurants timeslot buttons calculation
         if ($request->date !== null && $request->time !== null) {
             $tempDate = Carbon::create($request->date . " " . $request->time);
@@ -43,7 +44,7 @@ class RestaurantController extends Controller
             'now' => $now,
             'hours' => $hours,
             'timeOption' => is_string($time) ? $time : $time->format('H:i'),
-            'peopleOptions' => $peopleOptions,
+            'peopleOptions' => $this->peopleOptions,
             'people' => $people,
             'restaurantName' => $restaurantName
         ]);
@@ -52,9 +53,14 @@ class RestaurantController extends Controller
     public function view(Restaurant $restaurant)
     {
         $restaurant->load('images');
+        $now = Carbon::now();
+        $hours = $this->getHours($now);
 
         return view('restaurant.view', [
             'restaurant' => $restaurant,
+            'peopleOptions' => $this->peopleOptions,
+            'now' => $now,
+            'hours' => $hours
         ]);
     }
 
