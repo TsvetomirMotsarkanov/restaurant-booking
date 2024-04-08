@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Error;
 
 use App\Models\Booking;
+use App\Models\BookingConfirmation;
 use App\Models\Restaurant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
@@ -43,6 +44,9 @@ class BookingController extends Controller
             'people' => 'required|integer|min:1|max:12',
             'date' => 'required|date',
             'restaurantId' => 'required|integer',
+            'name' => 'required',
+            'email' => 'required',
+            'phone' => 'required',
         ])->validate();
 
         $date = Carbon::create($request->date);
@@ -68,11 +72,19 @@ class BookingController extends Controller
         try {
             $tableBookings = $this->getTableBookings($restaurant, $request->people);
 
-            Booking::insert($tableBookings->map(function ($table) use ($date) {
+            $bookingConfirmation = BookingConfirmation::create([
+                'name' => $request->name,
+                'email' => $request->email,
+                'phone' => $request->phone,
+                'restaurant_id' => $request->restaurantId,
+            ]);
+
+            Booking::insert($tableBookings->map(function ($table) use ($date, $bookingConfirmation) {
                 return [
                     'restaurant_table_id' => $table->id,
                     'start_date' => $date,
-                    'end_date' => Carbon::create($date)->addMinutes(30)
+                    'end_date' => Carbon::create($date)->addMinutes(30),
+                    'booking_confirmation_id' => $bookingConfirmation->id
                 ];
             })->toArray());
 

@@ -69,7 +69,7 @@ class RestaurantController extends Controller
         $slot1 = $this->addMinutes($date, 15);
         $slot2 = Carbon::create($slot1)->addMinutes(15);
         $slot3 = Carbon::create($slot1)->addMinutes(30);
-        $restaurants = Restaurant::with(['tables' => function ($q) use ($slot3) {
+        $restaurants = Restaurant::with(['bookings', 'tables' => function ($q) use ($slot3) {
             $q->with('bookings')->whereDoesntHave('bookings', function ($bookingsQuery) use ($slot3) {
                 $bookingsQuery->where([
                     ['end_date', '>', $slot3],
