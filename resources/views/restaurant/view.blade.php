@@ -1,3 +1,31 @@
+<script>
+    function appBookingComponent() {
+        return {
+            now: @json($now->format('Y-m-d')),
+            hours: @json($hours),
+            hoursToday: @json($hours),
+            allHours: @json($allHours),
+            dateDate: @json($now->format('Y-m-d')),
+            selectedHour: @json($hours[0]),
+            selectedDate: @json($now->format('Y-m-d')) + ' ' + @json($hours[0]),
+            updateSelectedHour(event) {
+                this.selectedDate = this.dateDate + ' ' + event?.target?.value;
+            },
+            updateSelectedDate(event) {
+                console.log(this.allHours)
+                const newDate = event?.target?.value
+                if (newDate == this.now) {
+                    this.hours = this.hoursToday
+                } else {
+                    this.hours = this.allHours
+                }
+
+                this.selectedDate = newDate + ' ' + this.selectedHour;
+            }
+        }
+    }
+</script>
+
 <x-app-layout>
     <div class="relative isolate overflow-hidden bg-white px-6 pt-24 lg:overflow-visible lg:px-0">
         <div class="absolute inset-0 -z-10 overflow-hidden">
@@ -45,19 +73,23 @@
                 Make a booking
             </h2>
 
-            <form class="block w-full" method="get" action="/booking/{{ $restaurant->id }}">
-                <input type="hidden" name="date" value="{{ $now->format('Y-m-d') }} {{ $hours[0] }}">
+            <form class="block w-full" method="get" action="/booking/{{ $restaurant->id }}" x-data="appBookingComponent()">
+                <input type="hidden" name="date" value="{{ $now->format('Y-m-d') }} {{ $hours[0] }}"
+                    x-model="selectedDate">
                 <div class="mt-4 flex gap-4 w-full">
                     <input id="date"
                         class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
                         placeholder="Date" type="date" name="date-date" min="{{ $now->format('Y-m-d') }}"
-                        value="{{ $now->format('Y-m-d') }}" required />
+                        value="{{ $now->format('Y-m-d') }}" required x-on:change="updateSelectedDate($event)"
+                        x-model="dateDate" />
 
                     <select name="date-time" id="time"
-                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm">
-                        @foreach ($hours as $hour)
-                            <option value="{{ $hour }}">{{ $hour }}</option>
-                        @endforeach
+                        class="block mt-1 w-full border-gray-300 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 focus:border-indigo-500 dark:focus:border-indigo-600 focus:ring-indigo-500 dark:focus:ring-indigo-600 rounded-md shadow-sm"
+                        x-on:change="updateSelectedHour($event)" x-model="selectedHour">
+
+                        <template x-for="hour in hours" :key="hour">
+                            <option x-value="hour" x-text="hour"></option>
+                        </template>
                     </select>
                 </div>
 

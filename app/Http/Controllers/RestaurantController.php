@@ -55,12 +55,14 @@ class RestaurantController extends Controller
         $restaurant->load('images');
         $now = Carbon::now();
         $hours = $this->getHours($now);
+        $allHours = $this->getHours(Carbon::create());
 
         return view('restaurant.view', [
             'restaurant' => $restaurant,
             'peopleOptions' => $this->peopleOptions,
             'now' => $now,
-            'hours' => $hours
+            'hours' => $hours,
+            'allHours' => $allHours
         ]);
     }
 
