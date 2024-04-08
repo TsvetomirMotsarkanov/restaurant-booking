@@ -44,7 +44,8 @@
     </div>
 
     <div class="mt-20 mx-auto max-w-7xl px-6 lg:px-8">
-        <p class="mt-4 text-lg leading-8 text-gray-300">© 2024 Copyright: Teto Motsarkanov. All Rights Reserved.</p>
+        <p class="mt-4 text-lg leading-8 text-gray-300">© 2024 Copyright: Tsvetomir Motsarkanov. All Rights Reserved.
+        </p>
     </div>
 
 </div>

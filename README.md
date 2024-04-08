@@ -1,6 +1,6 @@
 # Restaurant Booking
 
-Welcome to the `restaurant-booking` project! This application is designed to simplify the process of booking tables at your favorite restaurants, providing an easy-to-use interface for both customers and restaurant owners.
+Welcome to the `restaurant-booking` project! This application is designed to simplify the process of booking tables at your favorite restaurants, providing an easy-to-use interface for customers.
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ Before you get started, ensure you have the following installed:
 
 ## Getting Started
 
-Follow these steps to set up the project locally:
+Follow these steps to set up the project locally. **Steps 1, 2, 3, 4, 6, 7 and 8 are required only for the initial setup and need to be completed only once.** After the initial setup, you can start the application by repeating step 5 to bring up the Docker environment and step 9 to compile assets with npm.
 
 ### 1. Clone the Repository
 
@@ -69,7 +69,15 @@ Run migrations and seed the database with initial data:
 ./vendor/bin/sail php artisan migrate:fresh --seed
 ```
 
-### 8. Compile Assets
+### 8. Npm Install
+
+Before compiling the assets, install the npm packages:
+
+```bash
+./vendor/bin/sail npm install
+```
+
+### 9. Compile Assets
 
 Finally, compile the front-end assets:
 
