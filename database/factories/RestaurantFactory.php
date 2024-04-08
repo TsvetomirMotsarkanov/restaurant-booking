@@ -33,7 +33,6 @@ class RestaurantFactory extends Factory
         "Mon-Sun 11:30-22:30",
         "Mon-Sun 08:00-20:00",
         "Tue-Sun 17:00-23:00",
-        null
     ];
 
     private $additional_info_cuisines = [
@@ -97,7 +96,7 @@ class RestaurantFactory extends Factory
             'name' => fake()->streetName(),
             'description' => fake()->paragraph(),
             'image' => fake()->imageUrl(300, 300),
-            'raiting' => fake()->randomFloat(1, 0, 5),
+            'raiting' => fake()->randomFloat(1, 1, 5),
             'additional_info_area' => "London",
             'additional_info_location' => fake()->streetAddress(),
             'additional_smoking_area' => $this->additional_smoking_area[fake()->numberBetween(0, count($this->additional_smoking_area) - 1)],

@@ -33,4 +33,9 @@ class Restaurant extends Model
     {
         return $this->hasMany(RestaurantImage::class);
     }
+
+    public function bookings(): HasMany
+    {
+        return $this->hasMany(BookingConfirmation::class);
+    }
 }

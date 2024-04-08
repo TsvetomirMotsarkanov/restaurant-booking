@@ -71,12 +71,16 @@
                                 <x-input-error :messages="$errors->get('date')" class="mt-2" />
                                 <x-text-input id="name" class="block mt-8 w-full" placeholder="Full name"
                                     type="text" name="name" value="" />
+                                <x-input-error :messages="$errors->get('name')" class="mt-2" />
 
-                                <x-text-input id="mail" class="block mt-8 w-full" placeholder="Email"
-                                    type="email" name="mail" value="" />
+                                <x-text-input id="email" class="block mt-8 w-full" placeholder="Email"
+                                    type="email" name="email" value="" />
+                                <x-input-error :messages="$errors->get('email')" class="mt-2" />
 
                                 <x-text-input id="phone" class="block mt-8 w-full" placeholder="Phone number"
                                     type="text" name="phone" value="" />
+
+                                <x-input-error :messages="$errors->get('phone')" class="mt-2" />
 
                                 <div class="mt-8 flex items-center">
                                     <input type="checkbox" name="newslatter" id="newslatter" checked>
