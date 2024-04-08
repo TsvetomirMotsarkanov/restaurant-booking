@@ -10,6 +10,7 @@ use App\Models\Restaurant;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\DB;
 
 class BookingController extends Controller
 {
@@ -78,6 +79,12 @@ class BookingController extends Controller
                 'phone' => $request->phone,
                 'restaurant_id' => $request->restaurantId,
             ]);
+
+            if ($request->newslatter && $request->newslatter === "on") {
+                DB::table('subscribers')->insertOrIgnore([
+                    'email' => $request->email,
+                ]);
+            }
 
             Booking::insert($tableBookings->map(function ($table) use ($date, $bookingConfirmation) {
                 return [
