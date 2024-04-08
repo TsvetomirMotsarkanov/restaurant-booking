@@ -33,7 +33,6 @@ class RestaurantFactory extends Factory
         "Mon-Sun 11:30-22:30",
         "Mon-Sun 08:00-20:00",
         "Tue-Sun 17:00-23:00",
-        null
     ];
 
     private $additional_info_cuisines = [
